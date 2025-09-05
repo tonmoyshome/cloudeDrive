@@ -518,8 +518,8 @@ class CloudeDrive {
     }
 
     async uploadFile(file, targetFolderId = null) {
-        const formData = new FormData();
-        formData.append('file', file);
+        const CHUNK_SIZE = 1024 * 1024; // 1MB chunks
+        const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
         
         // Use provided target folder ID or get current folder ID from URL
         let folderId = targetFolderId;
@@ -527,7 +527,19 @@ class CloudeDrive {
             const urlParams = new URLSearchParams(window.location.search);
             folderId = urlParams.get('folder') || '';
         }
-        
+
+        // For small files (< 1MB), use direct upload
+        if (file.size < CHUNK_SIZE) {
+            return this.uploadFileDirectly(file, folderId);
+        }
+
+        // For large files, use chunked upload
+        return this.uploadFileInChunks(file, folderId, CHUNK_SIZE, totalChunks);
+    }
+
+    async uploadFileDirectly(file, folderId) {
+        const formData = new FormData();
+        formData.append('file', file);
         formData.append('folder_id', folderId);
         
         const response = await fetch('api/upload.php', {
@@ -546,6 +558,62 @@ class CloudeDrive {
         }
         
         return result;
+    }
+
+    async uploadFileInChunks(file, folderId, chunkSize, totalChunks) {
+        // Create upload session
+        const sessionResponse = await fetch('api/create_upload_session.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                filename: file.name,
+                total_size: file.size,
+                chunk_size: chunkSize,
+                folder_id: folderId
+            })
+        });
+
+        const sessionResult = await sessionResponse.json();
+        if (!sessionResult.success) {
+            throw new Error(sessionResult.message || 'Failed to create upload session');
+        }
+
+        const sessionId = sessionResult.session_id;
+
+        // Upload chunks
+        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+            const start = chunkIndex * chunkSize;
+            const end = Math.min(start + chunkSize, file.size);
+            const chunk = file.slice(start, end);
+
+            const formData = new FormData();
+            formData.append('chunk', chunk);
+            formData.append('session_id', sessionId);
+            formData.append('chunk_number', chunkIndex);
+
+            const chunkResponse = await fetch('api/upload_chunk.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const chunkResult = await chunkResponse.json();
+            if (!chunkResult.success) {
+                throw new Error(`Chunk upload failed: ${chunkResult.message}`);
+            }
+
+            // Update progress
+            const progress = ((chunkIndex + 1) / totalChunks) * 100;
+            this.updateUploadProgress(progress);
+        }
+
+        return { success: true, message: 'File uploaded successfully' };
+    }
+
+    updateUploadProgress(progress) {
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+        }
     }
 
     async handleCreateFolder(e) {
