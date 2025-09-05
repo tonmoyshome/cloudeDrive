@@ -176,9 +176,18 @@ class FolderManager {
                 $userId = $_SESSION['user_id'] ?? null;
             }
 
-            // Check if user can share this folder (owner or admin)
+            // Check if user can share this folder (owner only)
             if (!$this->canShareFolder($folderId, $userId)) {
-                return ['success' => false, 'message' => 'Permission denied'];
+                // Add debug info to help identify the issue
+                $stmt = $this->conn->prepare("SELECT name, owner_id FROM folders WHERE id = ?");
+                $stmt->execute([$folderId]);
+                $folder = $stmt->fetch();
+                
+                if (!$folder) {
+                    return ['success' => false, 'message' => 'Folder not found'];
+                } else {
+                    return ['success' => false, 'message' => 'You can only share folders that you own. This folder belongs to user ID: ' . $folder['owner_id']];
+                }
             }
 
             $stmt = $this->conn->prepare("UPDATE folders SET is_shared = 1 WHERE id = ?");
@@ -542,12 +551,7 @@ class FolderManager {
 
     private function canShareFolder($folderId, $userId) {
         try {
-            // Admin can share any folder
-            if ($this->isAdmin($userId)) {
-                return true;
-            }
-
-            // Check if user owns the folder
+            // Only allow users to share folders they own
             $stmt = $this->conn->prepare("SELECT owner_id FROM folders WHERE id = ?");
             $stmt->execute([$folderId]);
             $folder = $stmt->fetch();

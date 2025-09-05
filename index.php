@@ -287,7 +287,7 @@ if ($folderId) {
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                 <?php endif; ?>
-                                                <?php if ($currentUser['role'] === 'admin' || $folder['owner_id'] == $currentUser['id']): ?>
+                                                <?php if ($folder['owner_id'] == $currentUser['id']): ?>
                                                     <button class="btn-professional btn-warning btn-sm" onclick="event.stopPropagation(); shareFolder(<?php echo $folder['id']; ?>)" title="Share">
                                                         <i class="fas fa-share"></i>
                                                     </button>
@@ -324,7 +324,7 @@ if ($folderId) {
                                     <button class="btn-professional btn-primary btn-sm" onclick="event.stopPropagation(); downloadFolder(<?php echo $folder['id']; ?>)" title="Download as ZIP">
                                         <i class="fas fa-download"></i>
                                     </button>
-                                    <?php if ($currentUser['role'] === 'admin' || $folder['owner_id'] == $currentUser['id']): ?>
+                                    <?php if ($folder['owner_id'] == $currentUser['id']): ?>
                                         <button class="btn-professional btn-warning btn-sm" onclick="event.stopPropagation(); shareFolder(<?php echo $folder['id']; ?>)" title="Share">
                                             <i class="fas fa-share"></i>
                                         </button>

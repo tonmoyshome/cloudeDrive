@@ -847,19 +847,45 @@ async function deleteFolder(folderId) {
 
 function openShareModal() {
     console.log('Opening share modal...');
-    const modal = document.getElementById('shareModal');
-    modal.classList.remove('d-none');
-    
-    // Clear form
-    document.getElementById('shareFolder').value = '';
-    document.getElementById('shareUsers').innerHTML = '';
-    document.getElementById('currentSharesSection').classList.add('d-none');
-    
-    // Reset permissions
-    document.getElementById('canView').checked = true;
-    document.getElementById('canDownload').checked = true;
-    document.getElementById('canUpload').checked = false;
-    document.getElementById('canDelete').checked = false;
+    try {
+        const modal = document.getElementById('shareModal');
+        console.log('shareModal element:', modal);
+        if (modal) {
+            modal.classList.remove('d-none');
+            console.log('Modal should now be visible');
+        } else {
+            console.error('shareModal element not found!');
+            return;
+        }
+        
+        // Clear form
+        const shareFolderSelect = document.getElementById('shareFolder');
+        const shareUsers = document.getElementById('shareUsers');
+        const currentSharesSection = document.getElementById('currentSharesSection');
+        
+        console.log('Form elements:', {
+            shareFolder: shareFolderSelect,
+            shareUsers: shareUsers,
+            currentSharesSection: currentSharesSection
+        });
+        
+        if (shareFolderSelect) shareFolderSelect.value = '';
+        if (shareUsers) shareUsers.innerHTML = '';
+        if (currentSharesSection) currentSharesSection.classList.add('d-none');
+        
+        // Reset permissions
+        const canView = document.getElementById('canView');
+        const canDownload = document.getElementById('canDownload');
+        const canUpload = document.getElementById('canUpload');
+        const canDelete = document.getElementById('canDelete');
+        
+        if (canView) canView.checked = true;
+        if (canDownload) canDownload.checked = true;
+        if (canUpload) canUpload.checked = false;
+        if (canDelete) canDelete.checked = false;
+    } catch (error) {
+        console.error('Error in openShareModal:', error);
+    }
 }
 
 function closeShareModal() {
@@ -869,16 +895,27 @@ function closeShareModal() {
 }
 
 function shareFolder(folderId) {
-    openShareModal();
-    
-    // Set the folder ID in the select and load shares
-    setTimeout(() => {
-        const shareSelect = document.getElementById('shareFolder');
-        if (shareSelect) {
-            shareSelect.value = folderId;
-            loadCurrentShares(); // Load the shares for this folder
-        }
-    }, 100);
+    alert('Share button clicked! Folder ID: ' + folderId);
+    console.log('shareFolder called with ID:', folderId);
+    try {
+        openShareModal();
+        
+        // Set the folder ID in the select and load shares
+        setTimeout(() => {
+            const shareSelect = document.getElementById('shareFolder');
+            console.log('shareSelect element:', shareSelect);
+            if (shareSelect) {
+                shareSelect.value = folderId;
+                console.log('Set shareSelect value to:', folderId);
+                loadCurrentShares(); // Load the shares for this folder
+            } else {
+                console.error('shareFolder select element not found!');
+            }
+        }, 100);
+    } catch (error) {
+        console.error('Error in shareFolder:', error);
+        alert('Error in shareFolder: ' + error.message);
+    }
 }
 
 function previewFile(fileId) {
