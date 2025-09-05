@@ -778,17 +778,44 @@ class FolderManager {
         try {
             $deletedCount = 0;
             $failedFolders = [];
+            $errorMessages = [];
+
+            // Check if user is admin first
+            $isAdmin = $this->isAdmin($userId);
 
             foreach ($folderIds as $folderId) {
-                if ($this->canManageFolder($folderId, $userId)) {
+                // First check if folder exists
+                $stmt = $this->conn->prepare("SELECT id, name, owner_id FROM folders WHERE id = ?");
+                $stmt->execute([$folderId]);
+                $folder = $stmt->fetch();
+                
+                if (!$folder) {
+                    $failedFolders[] = $folderId;
+                    $errorMessages[] = "Folder $folderId does not exist";
+                    continue;
+                }
+                
+                $canDelete = false;
+                
+                if ($isAdmin) {
+                    // Admin can delete any folder
+                    $canDelete = true;
+                } else {
+                    // For non-admin users, check permissions
+                    $canDelete = $this->hasFolderPermission($folderId, $userId, 'delete');
+                }
+                
+                if ($canDelete) {
                     $result = $this->deleteFolder($folderId, $userId);
                     if ($result['success']) {
                         $deletedCount++;
                     } else {
                         $failedFolders[] = $folderId;
+                        $errorMessages[] = "Folder $folderId: " . $result['message'];
                     }
                 } else {
                     $failedFolders[] = $folderId;
+                    $errorMessages[] = "Folder $folderId: Permission denied";
                 }
             }
 
@@ -797,9 +824,11 @@ class FolderManager {
                 return ['success' => true, 'message' => "Successfully deleted $deletedCount folders"];
             } else if ($deletedCount > 0) {
                 $failedCount = count($failedFolders);
-                return ['success' => true, 'message' => "Deleted $deletedCount of $totalFolders folders - $failedCount folders could not be deleted"];
+                $errorDetails = !empty($errorMessages) ? " Errors: " . implode("; ", $errorMessages) : "";
+                return ['success' => true, 'message' => "Deleted $deletedCount of $totalFolders folders - $failedCount folders could not be deleted.$errorDetails"];
             } else {
-                return ['success' => false, 'message' => 'No folders could be deleted - check your permissions'];
+                $errorDetails = !empty($errorMessages) ? " Errors: " . implode("; ", $errorMessages) : "";
+                return ['success' => false, 'message' => "No folders could be deleted - check your permissions.$errorDetails"];
             }
         } catch (Exception $e) {
             error_log("Delete multiple folders error: " . $e->getMessage());
