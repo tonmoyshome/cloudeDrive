@@ -225,6 +225,10 @@ class User {
             }
 
             if (isset($data['password']) && !empty($data['password'])) {
+                // Check for password confirmation
+                if (!isset($data['confirm_password']) || $data['password'] !== $data['confirm_password']) {
+                    return ['success' => false, 'message' => 'New password and confirmation do not match'];
+                }
                 $updateFields[] = "password = ?";
                 $params[] = password_hash($data['password'], PASSWORD_DEFAULT);
             }

@@ -71,7 +71,7 @@ class AdminPanel {
         const confirmPassword = document.getElementById('confirmEditPassword').value;
         
         // Validate password confirmation if password is provided
-        if (newPassword !== confirmPassword) {
+        if (password !== confirmPassword) {
             this.showAlert('New password and confirmation do not match', 'error');
             return;
         }
@@ -87,6 +87,7 @@ class AdminPanel {
         // Only include password if it's provided
         if (password && password.trim() !== '') {
             requestData.password = password;
+            requestData.confirm_password = confirmPassword;
         }
         
         try {

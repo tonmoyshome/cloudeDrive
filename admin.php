@@ -421,7 +421,6 @@ try {
     <div id="alertContainer" class="alert-container"></div>
 
     <!-- Scripts -->
-    <script src="assets/js/admin.js"></script>
 </body>
 </html>
 

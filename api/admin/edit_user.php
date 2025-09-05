@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $input['role'] ?? null;
     $storageLimit = $input['storage_limit'] ?? null;
     $password = $input['password'] ?? null;
+    $confirm_password = $input['confirm_password'] ?? null;
     
     // Validate required fields
     if (!$userId || !$username || !$email || !$role || !$storageLimit) {
@@ -73,6 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Only update password if provided
         if (!empty($password)) {
+            // Check password confirmation
+            if ($password !== $confirm_password) {
+                echo json_encode(['success' => false, 'message' => 'New password and confirmation do not match']);
+                exit;
+            }
             $updateFields[] = "password = ?";
             $updateValues[] = password_hash($password, PASSWORD_DEFAULT);
         }
