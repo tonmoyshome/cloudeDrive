@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudeDrive User Guide</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h4 {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin: 1rem 0 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .steps {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .steps ol {
+            margin-left: 1rem;
+        }
+
+        .steps li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .tips-box h4 {
+            color: #92400e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-color: var(--primary-color);
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: var(--warning-color);
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            border-color: var(--danger-color);
+            color: #dc2626;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-color: var(--success-color);
+            color: #065f46;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .checklist li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checklist li:before {
+            content: "✅";
+            font-size: 1.1rem;
+        }
+
+        .checklist-bad {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .checklist-bad li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checklist-bad li:before {
+            content: "❌";
+            font-size: 1.1rem;
+        }
+
+        .navigation-menu {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .navigation-menu h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .navigation-menu ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .navigation-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .navigation-menu a:hover {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+        }
+
+        .troubleshooting {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .troubleshooting h4 {
+            color: var(--danger-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .badge-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fbbf24 0%, #fbbf24 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.2em;
+            background-position: 0 88%;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation-menu ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-cloud"></i> CloudeDrive User Guide</h1>
+            <p class="subtitle">Your complete guide to using CloudeDrive - Simple, Safe, and Secure file storage</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="navigation-menu">
+            <h3><i class="fas fa-list"></i> Quick Navigation</h3>
+            <ul>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#folders">Working with Folders</a></li>
+                <li><a href="#files">Working with Files</a></li>
+                <li><a href="#search">Finding Your Files</a></li>
+                <li><a href="#profile">User Profile</a></li>
+                <li><a href="#sharing">File Sharing</a></li>
+                <li><a href="#tips">Organization Tips</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+            </ul>
+        </div>
+
+        <!-- Getting Started Section -->
+        <div class="section" id="getting-started">
+            <h2><i class="fas fa-play-circle"></i> Getting Started</h2>
+            
+            <h3><i class="fas fa-sign-in-alt"></i> How to Login</h3>
+            <div class="steps">
+                <ol>
+                    <li>Open CloudeDrive in your web browser</li>
+                    <li>You will see a login page with two options:
+                        <ul>
+                            <li><strong>Login</strong> (if you already have an account)</li>
+                            <li><strong>Register</strong> (if you need to create a new account)</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-user-plus"></i> Creating a New Account</h4>
+                    <ol>
+                        <li>Click on the <span class="badge badge-primary">Register</span> tab</li>
+                        <li>Fill in:
+                            <ul>
+                                <li>Username (choose any name you like)</li>
+                                <li>Email address (your email)</li>
+                                <li>Password (at least 6 characters)</li>
+                                <li>Confirm password (type the same password again)</li>
+                            </ul>
+                        </li>
+                        <li>Click <span class="badge badge-success">Create Account</span></li>
+                        <li>You can now login with your username and password</li>
+                    </ol>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-sign-in-alt"></i> Logging In</h4>
+                    <ol>
+                        <li>Click on the <span class="badge badge-primary">Login</span> tab</li>
+                        <li>Enter your username (or email) and password</li>
+                        <li>Click <span class="badge badge-success">Sign In</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Folders Section -->
+        <div class="section" id="folders">
+            <h2><i class="fas fa-folder"></i> Working with Folders</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-folder-plus"></i> Creating a New Folder</h4>
+                    <ol>
+                        <li>Click the green <span class="badge badge-success">New Folder</span> button</li>
+                        <li>Type a name for your folder</li>
+                        <li>Click <span class="badge badge-success">Create Folder</span></li>
+                        <li>Your new folder will appear on the screen</li>
+                    </ol>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-folder-open"></i> Opening a Folder</h4>
+                    <p>Simply click on any folder to open it and see what's inside</p>
+                    
+                    <h4><i class="fas fa-arrow-left"></i> Going Back</h4>
+                    <p>Use the breadcrumb navigation at the top (Home › Folder Name) to go back to previous folders</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files Section -->
+        <div class="section" id="files">
+            <h2><i class="fas fa-file"></i> Working with Files</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-upload"></i> Uploading Files</h4>
+                    <ol>
+                        <li>Click the blue <span class="badge badge-primary">Upload</span> button</li>
+                        <li>You can either:
+                            <ul>
+                                <li>Drag and drop files directly onto the upload area</li>
+                                <li>Click "browse and select files" to choose files from your computer</li>
+                            </ul>
+                        </li>
+                        <li>Click <span class="badge badge-primary">Upload Files</span></li>
+                        <li>Wait for the upload to complete</li>
+                    </ol>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-download"></i> Downloading Files</h4>
+                    <ol>
+                        <li>Find the file you want to download</li>
+                        <li>Click the download button (<i class="fas fa-download"></i>) next to the file</li>
+                        <li>The file will be saved to your computer</li>
+                    </ol>
+                    
+                    <h4><i class="fas fa-eye"></i> Viewing Files</h4>
+                    <p>Click the eye button (<i class="fas fa-eye"></i>) next to any file to preview it</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong><i class="fas fa-info-circle"></i> File Upload Limits:</strong>
+                Maximum file size is 5GB per file. All file types are supported.
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="section" id="search">
+            <h2><i class="fas fa-search"></i> Finding Your Files</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-search"></i> Search</h4>
+                    <ul>
+                        <li>Use the search box at the top to find files and folders by name</li>
+                        <li>Just type what you're looking for and it will show matching results</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-th"></i> Viewing Options</h4>
+                    <ul>
+                        <li>Switch between <strong>List View</strong> (shows details like size and date) and <strong>Grid View</strong> (shows files as icons)</li>
+                        <li>Use the toggle buttons in the top toolbar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete and Rename Section -->
+        <div class="section">
+            <h2><i class="fas fa-edit"></i> Managing Your Files</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-trash"></i> Deleting Files and Folders</h4>
+                    <ol>
+                        <li>Find the item you want to delete</li>
+                        <li>Click the red trash button (<i class="fas fa-trash"></i>)</li>
+                        <li>Confirm that you want to delete it</li>
+                    </ol>
+                    <div class="alert alert-danger">
+                        <strong>Important:</strong> Deleted files cannot be recovered!
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-edit"></i> Renaming Files and Folders</h4>
+                    <ol>
+                        <li>Find the item you want to rename</li>
+                        <li>Click the edit button (<i class="fas fa-edit"></i>)</li>
+                        <li>Type the new name</li>
+                        <li>Press Enter or click Save</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="section" id="profile">
+            <h2><i class="fas fa-user"></i> User Profile</h2>
+
+            <h3><i class="fas fa-user-edit"></i> Updating Your Profile</h3>
+            <div class="steps">
+                <ol>
+                    <li>Click <span class="badge badge-primary">Edit Profile</span> in the top navigation bar</li>
+                    <li>You can change:
+                        <ul>
+                            <li>Username</li>
+                            <li>Email address</li>
+                            <li>Password (leave blank if you don't want to change it)</li>
+                        </ul>
+                    </li>
+                    <li>Click <span class="badge badge-success">Save Changes</span></li>
+                </ol>
+            </div>
+
+            <h3><i class="fas fa-hdd"></i> Storage Space</h3>
+            <p>You can see how much storage space you're using at the top of the screen. It shows something like <span class="highlight">"2.5 GB / 10 GB (25%)"</span></p>
+        </div>
+
+        <!-- Sharing Section -->
+        <div class="section" id="sharing">
+            <h2><i class="fas fa-share"></i> File Sharing (Admin Feature)</h2>
+            
+            <div class="alert alert-info">
+                <strong><i class="fas fa-crown"></i> Admin Only:</strong> 
+                Only admin users can share folders with other users.
+            </div>
+
+            <div class="steps">
+                <p>If you're an admin user, you can share folders with other users:</p>
+                <ol>
+                    <li>Click the <span class="badge badge-warning">Share</span> button</li>
+                    <li>Choose which folder to share</li>
+                    <li>Select users to share with</li>
+                    <li>Choose what they can do:
+                        <ul>
+                            <li><strong>View:</strong> They can see the files</li>
+                            <li><strong>Download:</strong> They can download files</li>
+                            <li><strong>Upload:</strong> They can add new files</li>
+                            <li><strong>Delete:</strong> They can remove files</li>
+                        </ul>
+                    </li>
+                    <li>Click <span class="badge badge-warning">Share Folder</span></li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="section" id="tips">
+            <h2><i class="fas fa-lightbulb"></i> Tips for Better Organization</h2>
+
+            <div class="tips-box">
+                <h4><i class="fas fa-clipboard-list"></i> Best Practices</h4>
+                
+                <h4>1. Use Clear Names</h4>
+                <p>Give your files and folders names that make sense</p>
+                <ul class="checklist">
+                    <li>Good: "2025 Tax Documents", "Family Photos 2024"</li>
+                </ul>
+                <ul class="checklist-bad">
+                    <li>Bad: "Untitled", "New Folder"</li>
+                </ul>
+
+                <h4>2. Create Folder Structure</h4>
+                <p>Organize files into folders by category</p>
+                <p><strong>Example:</strong> Documents › Work › Projects › Project Name</p>
+
+                <h4>3. Regular Cleanup</h4>
+                <p>Delete files you no longer need to save space</p>
+
+                <h4>4. Backup Important Files</h4>
+                <p>Keep copies of important files in multiple places</p>
+            </div>
+
+            <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-check-square"></i> Multiple Selection</h4>
+                    <p>Check the boxes next to files/folders to select multiple items at once</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-hand-paper"></i> Drag and Drop</h4>
+                    <p>You can drag files directly onto the upload area</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-archive"></i> Folder Download</h4>
+                    <p>Click download on a folder to get all files inside as a ZIP file</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Section -->
+        <div class="section" id="troubleshooting">
+            <h2><i class="fas fa-wrench"></i> Troubleshooting</h2>
+
+            <h3><i class="fas fa-exclamation-triangle"></i> Common Problems</h3>
+
+            <div class="troubleshooting">
+                <h4>"Can't upload file"</h4>
+                <ul>
+                    <li>Check if you have enough storage space</li>
+                    <li>Make sure the file isn't too large (max 5GB per file)</li>
+                    <li>Check your internet connection</li>
+                </ul>
+            </div>
+
+            <div class="troubleshooting">
+                <h4>"Forgot password"</h4>
+                <ul>
+                    <li>Contact your system administrator to reset your password</li>
+                </ul>
+            </div>
+
+            <div class="troubleshooting">
+                <h4>"Can't find my files"</h4>
+                <ul>
+                    <li>Use the search feature</li>
+                    <li>Check if you're in the right folder using the breadcrumb navigation</li>
+                    <li>Make sure the files weren't accidentally deleted</li>
+                </ul>
+            </div>
+
+            <div class="troubleshooting">
+                <h4>"Can't delete/rename files"</h4>
+                <ul>
+                    <li>You can only delete/rename files that you uploaded</li>
+                    <li>If you're not the owner, you need special permissions</li>
+                </ul>
+            </div>
+
+            <h3><i class="fas fa-question-circle"></i> Need Help?</h3>
+            <div class="alert alert-info">
+                If you need assistance:
+                <ul style="margin-top: 0.5rem;">
+                    <li>Contact your system administrator</li>
+                    <li>Check this guide again for step-by-step instructions</li>
+                    <li>Ask a colleague who uses CloudeDrive</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Security Tips</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4><i class="fas fa-lock"></i> Password Security</h4>
+                    <p>Keep your password safe - Don't share it with others</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-sign-out-alt"></i> Log Out</h4>
+                    <p>Log out when done - Especially on shared computers</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-upload"></i> Upload Safely</h4>
+                    <p>Be careful what you upload - Don't upload sensitive information unless necessary</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-users"></i> Check Permissions</h4>
+                    <p>Make sure you're only sharing folders with the right people</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Note -->
+        <div class="alert alert-success">
+            <strong><i class="fas fa-heart"></i> Remember:</strong> 
+            CloudeDrive is designed to be simple and user-friendly. Most actions can be done with just a few clicks. Take your time to explore and get familiar with the interface!
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>CloudeDrive User Guide</strong></p>
+            <p>Last updated: September 2025</p>
+            <p><i class="fas fa-cloud"></i> Simple • Safe • Secure</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudeDrive Feature Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5; 
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        h2 { color: #333; margin-top: 0; }
+        .status { 
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        ul { margin: 10px 0; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>CloudeDrive New Features Test</h1>
+    
+    <div class="test-section">
+        <h2>✅ Features Implemented</h2>
+        <ul>
+            <li><span class="status success">✓</span> <strong>Rename Files & Folders:</strong> Users with full access can rename files and folders</li>
+            <li><span class="status success">✓</span> <strong>Multi-Select Delete:</strong> Select multiple files/folders and delete them at once</li>
+            <li><span class="status success">✓</span> <strong>Home Folder Access:</strong> Users can create/upload in their username folder and subfolders</li>
+            <li><span class="status success">✓</span> <strong>Shared Folder Access:</strong> Users can create/upload in shared folders with upload permission</li>
+            <li><span class="status success">✓</span> <strong>Folder Sharing:</strong> Users can share folders they created</li>
+            <li><span class="status success">✓</span> <strong>Admin Full Access:</strong> Admin always has full access to all folders</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 How to Test</h2>
+        <ol>
+            <li><strong>Login as Admin:</strong> Go to main page and login with admin credentials</li>
+            <li><strong>Create Test Users:</strong> Add new users through admin dashboard</li>
+            <li><strong>Test Rename:</strong> Click the edit (pencil) icon next to any file/folder you own</li>
+            <li><strong>Test Multi-Select:</strong> Use checkboxes to select multiple items, then use the action buttons</li>
+            <li><strong>Test Permissions:</strong> 
+                <ul>
+                    <li>Try uploading to your username folder - should work</li>
+                    <li>Try uploading to someone else's folder - should be denied unless shared</li>
+                    <li>Share a folder with another user and test their access</li>
+                </ul>
+            </li>
+            <li><strong>Test Admin Access:</strong> Login as admin and verify you can access all folders</li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔐 Permission Rules</h2>
+        <ul>
+            <li><span class="status info">ℹ</span> <strong>Admin:</strong> Full access to everything, always</li>
+            <li><span class="status info">ℹ</span> <strong>File Owner:</strong> Can rename, delete, and manage their own files</li>
+            <li><span class="status info">ℹ</span> <strong>Folder Owner:</strong> Can rename, delete, share, and manage their own folders</li>
+            <li><span class="status info">ℹ</span> <strong>Home Folder:</strong> Users can create/upload in folders matching their username</li>
+            <li><span class="status info">ℹ</span> <strong>Shared Access:</strong> Based on granted permissions (view, download, upload, delete)</li>
+            <li><span class="status info">ℹ</span> <strong>Root Level:</strong> Only admin can create folders at root level</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔗 API Endpoints Added</h2>
+        <ul>
+            <li><code>/api/rename_file.php</code> - Rename files</li>
+            <li><code>/api/rename_folder.php</code> - Rename folders</li>
+            <li><code>/api/delete_multiple_files.php</code> - Delete multiple files</li>
+            <li><code>/api/delete_multiple_folders.php</code> - Delete multiple folders</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>📝 Next Steps</h2>
+        <p>All requested features have been implemented. The system now supports:</p>
+        <ol>
+            <li>✅ Rename files and folders for users with full access</li>
+            <li>✅ Create/upload in username folders and shared folders with access</li>
+            <li>✅ Multi-select delete for files and folders</li>
+            <li>✅ User folder sharing with admin always having full access</li>
+        </ol>
+        <p><strong>Status:</strong> <span class="status success">Ready for Testing</span></p>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px;">
+        <a href="index.php" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">
+            Go to CloudeDrive
+        </a>
+    </p>
+</body>
+</html>
